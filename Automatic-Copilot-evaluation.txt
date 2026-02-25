@@ -1,0 +1,272 @@
+====================================================================
+  TA GRADING REPORT – Stellar Luminosity: Regression from Scratch
+====================================================================
+Evaluator : Automatic Copilot Evaluation
+Date       : 2026-02-25
+Repository : Regression-and-cloud-ready-AI-infrastructure
+====================================================================
+
+
+────────────────────────────────────────────────────────────────────
+SUMMARY
+────────────────────────────────────────────────────────────────────
+The repository is well-structured and covers all major requirements
+of both assignment parts. Notebook 1 (linear regression) implements
+dataset visualization, the cost surface, analytical gradients, both
+loop-based and vectorized gradient descent, three learning-rate
+experiments with a convergence comparison plot, and a conceptual
+discussion on the astrophysical meaning of the weight parameter and
+the limitations of linear models. Notebook 2 (polynomial regression)
+introduces temperature as a second feature, engineers the four-column
+feature matrix [M, T, M², M·T], performs fully vectorized training,
+compares three feature-set models (M1, M2, M3), analyses cost as a
+function of the interaction coefficient, and closes with an inference
+demonstration. The README provides SageMaker execution evidence with
+three screenshots and a brief local-vs-cloud comparison. All
+mandatory elements are present; only minor shortcomings are noted
+(see Issues section below).
+
+
+────────────────────────────────────────────────────────────────────
+GRADING BREAKDOWN  (scale 0.0 – 5.0)
+────────────────────────────────────────────────────────────────────
+
+1. Repository Structure & Compliance        Score: 0.5 / 0.5
+   ─────────────────────────────────────────────────────────
+   • README.md present and informative.                        ✓
+   • Two notebooks covering Part I and Part II.                ✓
+   • Datasets (M, L, T) defined as NumPy arrays inside each
+     notebook; no external files loaded.                       ✓
+   • Only Python, NumPy, and Matplotlib (including
+     mpl_toolkits.mplot3d, which is part of Matplotlib)
+     are imported. No ML libraries used.                       ✓
+   Deductions: none.
+
+2. Notebook 1 – Linear Regression (One Feature) Score: 1.8 / 2.0
+   ─────────────────────────────────────────────────────────────────
+   Item-by-item assessment:
+
+   a. Dataset visualization and interpretation
+      Scatter plot of M vs L with axis labels. Markdown cell
+      correctly identifies non-linearity and power-law growth.  ✓
+
+   b. Hypothesis and MSE implementation
+      predict() and mse() are explicit and correct.             ✓
+
+   c. Cost surface (grid + plot + explanation) [MANDATORY]
+      50×50 grid computed with nested loops. 3D surface plotted
+      with viridis colormap. Markdown explains the minimum.
+      A 2D contour map is absent; only the 3D surface is shown.
+      This is accepted as satisfying the mandatory requirement,
+      but a contour overlay would strengthen the analysis.      ✓ (minor gap)
+
+   d. Gradient derivation
+      Both loop-based (gradients_loop) and vectorized
+      (gradients_vectorized) forms are implemented and
+      mathematically correct.                                   ✓
+
+   e. Gradient descent – non-vectorized and vectorized
+      gradient_descent() accepts a `vectorized` flag; both
+      paths are present. The learning-rate experiments call
+      only the vectorized path; there is no dedicated
+      non-vectorized run shown in output. The code exists but
+      an explicit demonstration would be clearer.               ✓ (minor gap)
+
+   f. Convergence plot and discussion [MANDATORY]
+      Multi-curve convergence plot present for all three
+      learning rates. Discussion is present but consists of
+      only one sentence ("Higher learning rates converge faster
+      but may risk instability"), which lacks depth.
+      Deduction: -0.1                                           ✓ (thin discussion)
+
+   g. Multiple learning-rate experiments (≥3) [MANDATORY]
+      Three rates tested: 0.001, 0.01, 0.05.                   ✓
+
+   h. Final fit plot and error discussion
+      Scatter + line plot produced. Conceptual discussion
+      mentions systematic underfit at high masses.              ✓
+
+   i. Conceptual understanding
+      Meaning of w: clear explanation given.                    ✓
+      Limits of linearity: power-law motivation stated.         ✓
+
+   Deductions: -0.1 (thin convergence discussion)
+               -0.1 (non-vectorized path not explicitly executed/
+                     demonstrated in notebook output)
+
+3. Notebook 2 – Polynomial Regression (Two Features) Score: 2.0 / 2.0
+   ─────────────────────────────────────────────────────────────────────
+   a. Visualization with temperature encoding
+      Scatter plot with colorbar for T. Observation on
+      temperature-luminosity coupling noted.                    ✓
+
+   b. Feature engineering: [M, T, M², M·T]
+      build_features() produces the correct feature matrix for
+      all three modes.                                          ✓
+
+   c. Vectorized loss and gradients
+      predict(), mse(), and gradients() use matrix operations
+      throughout. Correct.                                      ✓
+
+   d. Training and convergence plot
+      train_model() uses 5000 iterations. Convergence curves
+      for M1, M2, M3 plotted together.                          ✓
+
+   e. Feature selection experiment: M1, M2, M3 [MANDATORY]
+      All three models trained and compared. Final losses
+      printed. Predicted-vs-actual scatter plots shown for
+      each model.                                               ✓
+
+   f. Interaction cost analysis (w_MT sweep) [MANDATORY]
+      w_MT varied ±0.0005 around the optimum; cost plotted.
+      Minimum clearly visible. Interpretation provided.         ✓
+
+   g. Inference example and interpretation [MANDATORY]
+      New star (M=1.3, T=6600 K) evaluated with M3 model.
+      Result printed with physical commentary.                  ✓
+
+   Deductions: none.
+
+4. Cloud Execution Evidence (SageMaker)       Score: 0.5 / 0.5
+   ─────────────────────────────────────────────────────────────
+   • README describes upload and execution in SageMaker Studio. ✓
+   • img/notebooks.png: both notebooks visible in SageMaker.   ✓
+   • img/dataset_visualization.png: rendered plot present.     ✓
+   • img/convergence_curves.png: convergence plot visible.     ✓
+   • Local-vs-cloud comparison included.                        ✓
+   Deductions: none.
+
+
+────────────────────────────────────────────────────────────────────
+FINAL GRADE
+────────────────────────────────────────────────────────────────────
+
+  Repository structure & compliance :  0.5 / 0.5
+  Notebook 1 – Linear regression    :  1.8 / 2.0
+  Notebook 2 – Polynomial regression:  2.0 / 2.0
+  Cloud execution evidence           :  0.5 / 0.5
+  ─────────────────────────────────────────────────
+  Final grade: 4.8 / 5.0
+
+  Result: PASS  (≥ 3.0)
+
+
+────────────────────────────────────────────────────────────────────
+STRENGTHS
+────────────────────────────────────────────────────────────────────
+• Complete coverage of all mandatory items in both notebooks.
+• Clean, readable code with clearly named functions.
+• Both loop and vectorized gradient implementations are present
+  and mathematically correct.
+• Notebook 2 is thorough: feature engineering, three-model
+  comparison, interaction coefficient sweep, and inference demo
+  all executed correctly.
+• Appropriate domain context throughout (power-law motivation,
+  mass-luminosity relationship, temperature coupling).
+• SageMaker evidence is well-documented with three screenshots
+  and a local/cloud comparison.
+• No prohibited libraries used anywhere.
+
+
+────────────────────────────────────────────────────────────────────
+ISSUES & MISSING ELEMENTS
+────────────────────────────────────────────────────────────────────
+• Notebook 1 – Convergence discussion (Cell 21) is a single
+  generic sentence. A stronger discussion would address why
+  lr=0.001 converges slowly, whether lr=0.05 shows any
+  oscillation, and what the final MSE values imply physically.
+• Notebook 1 – The non-vectorized gradient descent path
+  (vectorized=False) is implemented but never explicitly called
+  and demonstrated in a separate output cell, making it harder
+  to verify correctness independently.
+• Notebook 1 – Only a 3D surface plot is shown for the cost
+  surface. Adding a 2D contour plot with a gradient-descent
+  trajectory overlaid would significantly improve the analysis.
+• No inline comments explaining non-obvious implementation
+  choices (e.g., why lr=1e-12 is used in Notebook 2 given
+  the scale of the temperature feature).
+
+
+────────────────────────────────────────────────────────────────────
+TA FEEDBACK TO STUDENT
+────────────────────────────────────────────────────────────────────
+Excellent work overall. The repository satisfies every mandatory
+requirement and the implementation is technically correct. To
+improve, focus on three areas:
+
+1. Deepen your written analysis. When you show a convergence plot
+   comparing three learning rates, explain what you observe
+   quantitatively: does lr=0.05 overshoot? By how much does the
+   final loss differ across rates? These observations demonstrate
+   understanding beyond code execution.
+
+2. Make both gradient implementations observable. Add a short
+   cell that runs gradient_descent with vectorized=False for one
+   or two iterations and prints the resulting (dw, db) alongside
+   the vectorized version to confirm they match. This validates
+   your implementation and makes the notebook self-contained.
+
+3. Complement the 3D cost surface with a 2D contour plot and,
+   if possible, overlay the gradient descent trajectory on it.
+   This classical visualization connects the surface geometry to
+   the optimization path and is a hallmark of thorough ML
+   coursework.
+
+The polynomial regression notebook is notably strong — the M1/M2/M3
+comparison, the w_MT sweep, and the inference demo are all handled
+cleanly and with appropriate physical interpretation.
+
+
+────────────────────────────────────────────────────────────────────
+AI-GENERATION ASSESSMENT  (NON-GRADING, INFORMATIONAL ONLY)
+────────────────────────────────────────────────────────────────────
+
+A. Qualitative Assessment
+──────────────────────────
+Indicators suggesting AI assistance:
+• Explanation cells are uniformly concise and structurally
+  identical across both notebooks (one-sentence "Comment" or
+  "Interpretation" pattern after every code block).
+• Phrasing is generic and polished with no grammatical
+  irregularities, hedging, or self-correction typical of
+  unaided student writing.
+• Function names, docstring style, and code layout are
+  consistent and professional beyond what is typical of
+  first-draft graduate work.
+• README reads as an executive summary with near-perfect
+  structure; local-vs-cloud comparison uses textbook phrasing.
+
+Indicators suggesting human involvement:
+• Domain-specific choices are correct and contextually
+  appropriate (power-law motivation, temperature-luminosity
+  coupling commentary, plausible synthetic dataset values).
+• The learning-rate selection (0.001, 0.01, 0.05) and the
+  small step size for Notebook 2 (lr=1e-12 due to T feature
+  scale) reflect practical awareness rather than purely
+  textbook values.
+• The w_MT sweep range (±0.0005 around the optimum) suggests
+  the author understood where the minimum would be.
+
+B. Quantitative Estimate
+──────────────────────────
+  Code                  : ~70%  AI-assisted
+  Explanations/markdown : ~80%  AI-assisted
+  README                : ~85%  AI-assisted
+
+C. Commentary
+──────────────
+The project exhibits strong hallmarks of AI-assisted generation,
+particularly in the uniformity of prose style and the near-complete
+absence of informal reasoning or partial derivations. However, the
+physical domain knowledge embedded in dataset design and
+interpretation choices, along with practical hyperparameter
+selections, suggests meaningful human oversight and review. The work
+reads as a competent human directing an AI tool to produce clean,
+specification-compliant deliverables rather than a fully automated
+submission.
+
+This assessment is observational and does not imply misconduct.
+
+====================================================================
+END OF REPORT
+====================================================================
